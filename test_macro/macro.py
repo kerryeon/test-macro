@@ -39,7 +39,7 @@ class TestMacro:
             return False
         parser = TestParser()
         if 'cases' in data.keys():
-            for c in data['files']:
+            for c in data['cases']:
                 filename, cases = next(iter(c.items()))
                 c = self.addFile(filename)  # TODO addCase
                 for values in cases:
@@ -92,11 +92,6 @@ class TestMacro:
             if not c._step():
                 return False
         return True
-
-    def _dump(self):
-        if not len(self._cases):
-            return []
-        return reduce(operator.add, [c._dump() for c in self._cases])
 
     async def iterate(self):
         self._lock = True
@@ -166,13 +161,18 @@ class TestMacro:
         self._lock = False
         self._exit_code = int(exit_code)
 
+    def _dump(self):
+        if len(self._cases) == 0:
+            return []
+        return reduce(operator.add, [c._dump() for c in self._cases])
+
     def __row__(self):
-        if not len(self._cases):
+        if len(self._cases) == 0:
             return []
         return reduce(operator.add, [c.__row__() for c in self._cases])
 
     def __len__(self):
-        if not len(self._cases):
+        if len(self._cases) == 0:
             return 0
         return reduce(operator.mul, [len(c) for c in self._cases])
 

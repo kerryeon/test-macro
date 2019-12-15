@@ -6,9 +6,11 @@
 /build
 /dist
 /*.egg-info
+/publish.sh
 
 # TestMacro - Recorder
 **/recorded
 
 # IDE
+.empty
 .vscode

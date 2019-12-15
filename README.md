@@ -4,9 +4,10 @@ Do not change the experimental conditions one by one!
 TestMacro is a module that fully / semi-automates the testing and recording of results in programs.
 
 TestMacro can:
-* [ ] Recode programs
-* [ ] `.csv` records
+* [x] Change `.yaml`
 * [ ] Change arguments
+* [x] Recode programs
+* [ ] `.csv` records
 * [ ] Label arguments
 * [ ] Write meta file
 
@@ -15,15 +16,23 @@ TestMacro can:
 $ pip install test_macro
 ```
 
-## License
-TestMacro uses the MIT license.
+## Hello world
+TODO
+
+# List of main features
+TODO
+
+# License
+TestMacro uses the [MIT license](https://github.com/kerryeon/test-macro/blob/master/LICENSE).
 
 (The standalone tool is under GPL2)
 
-## Contribute
+# Contribute
 TestMacro is currently determining a pull-requests policy.
 
-## Contact
+If you would like to contribute now, please contact below.
+
+# Contact
 If you have any questions or want my assistance, you can email me at ho.kim at gnu ac kr.
 
 * [Ho Kim](https://github.com/kerryeon)

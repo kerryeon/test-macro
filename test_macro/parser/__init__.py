@@ -13,7 +13,8 @@ class Range:
 
     def __seq__(self, other):
         interval = (self.end - self.start) / (int(other) - 1)
-        return np.arange(self.start, self.end + interval, interval)
+        interval = round(interval, 6)
+        return np.arange(self.start, self.end + 1e-8, interval)
 
     def __add__(self, other):
         self.start += other
@@ -94,7 +95,7 @@ class EvalExpressions(Transformer):
 class TestParser:
 
     def __init__(self, path: str = None):
-        path = path or f'{os.path.dirname(__file__)}/test_parser.lark'
+        path = path or f'{os.path.dirname(__file__)}/parser.lark'
         with open(path) as f:
             self._p = Lark(f.read(), parser='lalr')
 

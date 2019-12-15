@@ -11,6 +11,11 @@
 # TestMacro - Recorder
 **/recorded
 
+# PyTest
+**/.coverage
+/tests/test_macro.py
+/tests/*.yml.bak
+
 # IDE
 .empty
 .vscode

@@ -137,7 +137,9 @@ class TestMacro:
         try:
             process = subprocess.Popen(command,
                 stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL)
+                stderr=subprocess.DEVNULL,
+                shell=True,
+            )
         except FileNotFoundError as e:
             print(f'\n{e}')
             self._exit(1)

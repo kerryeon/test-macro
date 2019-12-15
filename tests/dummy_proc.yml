@@ -1,0 +1,12 @@
+%YAML:1.0
+float_atom: 1.5
+num_add: 3
+num_atom: 1
+num_div: 0
+num_mul: 2
+num_sep: 1
+num_sub: -1
+rev_add: 2
+rev_mul: 1
+rev_pow: 1
+str_list: b

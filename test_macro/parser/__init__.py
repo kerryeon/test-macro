@@ -53,31 +53,37 @@ class Range:
 
     def __add__(self, other):
         self.start += other
-        self.end = other
+        self.end += other
         return self
+
+    def __sub__(self, other):
+        return self + (-other)
 
     def __mul__(self, other):
         self.start *= other
         self.end *= other
         return self
 
+    def __truediv__(self, other):
+        return self * (1 / other)
+
     def __radd__(self, other):
         return other + self.__arange__()
 
+    # def __rsub__(self, other):
+    #     raise NotImplementedError()  # TODO
+
     def __rmul__(self, other):
         return other * self.__arange__()
+
+    # def __rtruediv__(self, other):
+    #     raise NotImplementedError()  # TODO
 
     def __rpow__(self, other):
         return other ** self.__arange__()
 
     def __arange__(self):
         return np.arange(int(self.start), int(self.end) + 1)
-
-    def __str__(self):
-        return f'({self.start}, {self.end})'
-
-    def __repr__(self):
-        return str(self)
 
 
 class EvalExpressions(Transformer):
@@ -116,11 +122,9 @@ class EvalExpressions(Transformer):
     }
 
     @classmethod
-    def _calc(cls, args, reversed: bool = False):
+    def _calc(cls, args):
         if len(args) == 1:
             return args[0]
-        if reversed:
-            args = reversed(args)
         value = args[0]
         for op, other in zip(args[1::2], args[2::2]):
             value = cls.MAP[str(op)](value, other)

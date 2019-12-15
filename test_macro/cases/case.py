@@ -1,8 +1,9 @@
+import abc
 import operator
 from functools import reduce
 
 
-class MacroCase:
+class MacroCase(metaclass=abc.ABCMeta):
 
     def __init__(self, lock):
         self._lock = lock
@@ -52,6 +53,7 @@ class MacroCase:
             value = round(value, 6)
         return value
 
+    @abc.abstractmethod
     def _flush(self):
         pass
 

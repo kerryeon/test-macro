@@ -1,0 +1,8 @@
+%YAML:1.0
+
+exes:
+- python dummy_proc.py
+
+cases: []
+
+for: {}

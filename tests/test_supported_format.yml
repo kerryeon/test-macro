@@ -1,0 +1,10 @@
+%YAML:1.0
+
+exes:
+- python dummy_proc.py
+
+cases:
+- dummy_proc.ghost:
+  - atom: 123
+
+for: {}

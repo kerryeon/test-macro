@@ -1,0 +1,9 @@
+%YAML:1.0
+
+exes:
+- hello ghost
+
+cases:
+- dummy_proc_void.yml: []
+
+for: {}

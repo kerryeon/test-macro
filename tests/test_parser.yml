@@ -1,0 +1,24 @@
+%YAML:1.0
+
+exes:
+- python dummy_proc.py
+
+cases:
+- dummy_proc.yml:
+  - num_atom: 1
+  - num_sep: (1, 2) -- 2
+  - num_add: (1, 1) + 2
+  - num_sub: (1, 1) - 2
+  - num_mul: (1, 1) * 2
+  - num_div: (1, 1) / 2
+
+  - rev_add: 1 + (1, 1)
+  - rev_mul: 1 * (1, 1)
+  - rev_pow: 1 ** (1, 1)
+
+  - float_atom: 1.5
+
+  - str_list: [b]
+- dummy_proc_void.yml: []
+
+for: {}

@@ -111,7 +111,7 @@ class TestMacro:
 
         # TODO more pretty
         with tqdm(total=len(self)) as pbar:
-            on_error = True
+            on_error = False
             while True:
                 case = self._dump() 
                 pbar.set_description(''.join(

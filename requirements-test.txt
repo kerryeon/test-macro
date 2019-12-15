@@ -1,4 +1,5 @@
 pytest-asyncio
 pytest-cov
 
-coveralls<5.0
+coveralls
+coverage<5.0

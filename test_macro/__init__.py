@@ -3,8 +3,8 @@ import asyncio
 
 from tqdm import tqdm
 
-from .recorder import Recorder
-from .test_macro import TestMacro
+from .fors import Recorder
+from .macro import TestMacro
 
 
 async def _test(macro, loop, filepath: str):

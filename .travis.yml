@@ -8,5 +8,4 @@ install:
   - pip install -r requirements-test.txt
 
 script:
-  - cd tests
-  - pytest --cov=test_macro .
+  - cd tests; pytest --cov=test_macro .

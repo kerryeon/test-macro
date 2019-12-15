@@ -8,4 +8,7 @@ install:
 
 script:
   - cd tests
-  - pytest --cov=test_macro .
+  - pytest --cov=test_macro --cov-report term-missing .
+
+after_success:
+  - coveralls

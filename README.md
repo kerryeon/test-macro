@@ -1,4 +1,7 @@
 # TestMacro - a test automating library written in Python
+[![travis-ci](https://travis-ci.org/kerryeon/test-macro.svg?branch=master)](https://travis-ci.org/kerryeon/test-macro)
+[![coveralls](https://coveralls.io/repos/github/kerryeon/test-macro/badge.svg?branch=master)](https://coveralls.io/github/kerryeon/test-macro?branch=master)
+
 Do not change the experimental conditions one by one!
 
 TestMacro is a module that fully / semi-automates the testing and recording of results in programs.

@@ -12,7 +12,7 @@ def read(filename):
 
 
 setup(
-    version='0.1.1',
+    version=read('VERSION'),
 
     name='test-macro',
     description='a test automating library written in Python',

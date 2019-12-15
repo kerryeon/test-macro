@@ -1,4 +1,4 @@
-include LICENSE README.md setup.py
+include LICENSE README.md requirements.txt requirements-test.txt setup.py VERSION
 
 recursive-exclude * __pycache__
 recursive-exclude * *.pyc

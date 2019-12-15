@@ -16,7 +16,7 @@ TestMacro can:
 
 ## Install TestMacro
 ```bash
-$ pip install test_macro
+$ pip install test-macro
 ```
 
 ## Hello world

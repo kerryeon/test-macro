@@ -8,7 +8,7 @@
 /*.egg-info
 
 # TestMacro - Recorder
-/recorded
+**/recorded
 
 # IDE
 .vscode

@@ -15,6 +15,7 @@
 **/.coverage
 /tests/test_macro.py
 /tests/*.yml.bak
+/tests/test.sh
 
 # IDE
 .empty

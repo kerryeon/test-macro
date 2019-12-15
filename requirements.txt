@@ -1,0 +1,9 @@
+ewmh
+lark-parser
+matplotlib
+mss
+opencv-python
+python-xlib
+PyYAML
+scipy
+tqdm

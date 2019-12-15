@@ -11,6 +11,13 @@ def read(filename):
         return f.read()
 
 
+def read_requirements():
+    rs = read('requirements.txt').split('\n')
+    rs = [r.strip() for r in rs]
+    rs = [r for r in rs if len(r) > 0]
+    return rs
+
+
 setup(
     version=read('VERSION'),
 
@@ -26,24 +33,14 @@ setup(
     maintainer_email=author['email'],
     license='MIT',
 
+    install_requires=read_requirements(),
     packages=find_packages(),
+
     entry_points = {
         'console_scripts': [
             'macro=test_macro.macro:main',
         ],
     },
-
-    install_requires=[
-        'ewmh',
-        'lark-parser',
-        'matplotlib',
-        'mss',
-        'opencv-python',
-        'python-xlib',
-        'PyYAML',
-        'scipy',
-        'tqdm',
-    ],
 
     include_package_data=True,
     zip_safe=False,

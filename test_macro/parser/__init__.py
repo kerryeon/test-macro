@@ -5,6 +5,41 @@ from lark import Lark, Transformer
 from lark.exceptions import UnexpectedCharacters
 
 
+_syntax = r'''
+start           : expr
+
+expr            : term ((OP_ADD | OP_SUB) term)*
+term            : seq ((OP_MUL | OP_DIV) seq)*
+seq             : (power OP_SEQ)* power
+power           : (atom OP_POW)* atom
+
+OP_ADD          : "+"
+OP_SUB          : "-"
+OP_MUL          : "*"
+OP_DIV          : "/"
+
+OP_SEQ          : "--"
+OP_POW          : "**"
+
+range           : "(" expr "," expr [","] ")"
+
+atom            : number
+                | range
+
+number          : DEC_NUMBER | HEX_NUMBER | BIN_NUMBER | OCT_NUMBER | FLOAT_NUMBER | IMAG_NUMBER
+
+DEC_NUMBER      : /([-+]?)(0|[1-9]\d*)/i
+HEX_NUMBER.2    : /0x[\da-f]*/i
+OCT_NUMBER.2    : /0o[0-7]*/i
+BIN_NUMBER.2    : /0b[0-1]*/i
+FLOAT_NUMBER.2  : /((\d+\.\d+)(e[-+]?\d+)?|\d+(e[-+]?\d+))/i
+IMAG_NUMBER.2   : /\d+j/i | FLOAT_NUMBER "j"i
+
+%ignore /[\t \f\n]+/  // WS
+
+'''
+
+
 class Range:
 
     def __init__(self, start, end):
@@ -94,10 +129,8 @@ class EvalExpressions(Transformer):
 
 class TestParser:
 
-    def __init__(self, path: str = None):
-        path = path or f'{os.path.dirname(__file__)}/parser.lark'
-        with open(path) as f:
-            self._p = Lark(f.read(), parser='lalr')
+    def __init__(self):
+        self._p = Lark(_syntax, parser='lalr')
 
     def parse(self, q):
         if isinstance(q, list):

@@ -1,3 +1,4 @@
+import argparse
 import asyncio
 import operator
 import subprocess
@@ -7,7 +8,7 @@ from tqdm import tqdm
 
 from .cases import *
 from .fors import Recorder
-from .test_parser import TestParser
+from .parser import TestParser
 
 
 class TestMacro:
@@ -93,6 +94,8 @@ class TestMacro:
         return True
 
     def _dump(self):
+        if not len(self._cases):
+            return []
         return reduce(operator.add, [c._dump() for c in self._cases])
 
     async def iterate(self):
@@ -108,6 +111,7 @@ class TestMacro:
 
         # TODO more pretty
         with tqdm(total=len(self)) as pbar:
+            on_error = True
             while True:
                 case = self._dump() 
                 pbar.set_description(''.join(
@@ -120,8 +124,13 @@ class TestMacro:
                     await _fun(case)(*_args)
                 # exec
                 for _cmd in self._exes:
-                    await self._execute(_cmd)
+                    if await self._execute(_cmd):
+                        on_error = True
+                        break
+                if on_error:
+                    break
                 yield case
+                # update
                 await asyncio.sleep(0.1)
                 pbar.update()
                 if self._step():
@@ -129,9 +138,16 @@ class TestMacro:
         self._lock = False
 
     async def _execute(self, command: str):
-        process = subprocess.Popen(command,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL)
+        # spawn process
+        try:
+            process = subprocess.Popen(command,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL)
+        except FileNotFoundError as e:
+            print(f'\n{e}')
+            self._exit(1)
+            return True
+        # await
         while True:
             retcode = process.poll()
             if retcode is not None:
@@ -143,14 +159,41 @@ class TestMacro:
         exit_code = process.wait()
         if exit_code != 0:
             self._exit(exit_code)
+            return True
+        return False
 
     def _exit(self, exit_code: int):
         self._lock = False
         self._exit_code = int(exit_code)
-        asyncio.get_event_loop().stop()
 
     def __row__(self):
+        if not len(self._cases):
+            return []
         return reduce(operator.add, [c.__row__() for c in self._cases])
 
     def __len__(self):
+        if not len(self._cases):
+            return 0
         return reduce(operator.mul, [len(c) for c in self._cases])
+
+
+async def _main(macro, loop, filepath: str):
+    if macro.load(filepath):
+        async for _ in macro.iterate():
+            pass
+    loop.stop()
+
+
+def main():
+    parser = argparse.ArgumentParser(description='Simple fully automatic macro.')
+    parser.add_argument('-p', metavar='PATH', type=str, default='case.yml',
+                        help='a yaml file containing test cases')
+    args = parser.parse_args()
+
+    macro = TestMacro()
+
+    loop = asyncio.get_event_loop()
+    asyncio.ensure_future(_main(macro, loop, args.p))
+    loop.run_forever()
+
+    exit(macro.exitCode)

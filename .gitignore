@@ -2,5 +2,13 @@
 **/__pycache__
 **/*.pyc
 
+# Python setup.py
+/build
+/dist
+/*.egg-info
+
+# TestMacro - Recorder
+/recorded
+
 # IDE
 .vscode

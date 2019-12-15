@@ -1,6 +1,6 @@
 import yaml
 
-from .case import MacroCase
+from .file import MacroFile
 
 
 class MacroYAML(MacroFile):

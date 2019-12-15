@@ -1,11 +1,11 @@
 language: python
 python:
   - "3.7"
-  - "3.8"
 
 install:
   - python setup.py install
   - pip install -r requirements-test.txt
 
 script:
-  - cd tests; pytest --cov=test_macro .
+  - cd tests
+  - pytest --cov=test_macro .

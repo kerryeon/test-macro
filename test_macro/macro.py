@@ -169,7 +169,7 @@ class TestMacro:
     def _exit(self, exit_code: int):
         self._lock = False
         self._exit_code = int(exit_code)
-        return False
+        return self._exit_code == 0
 
     def _dump(self):
         if len(self._cases) == 0:

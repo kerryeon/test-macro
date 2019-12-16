@@ -35,13 +35,14 @@ class TestMacro:
             data = MacroYAML(self._lock, filename, dump=False)._data
         except FileNotFoundError as e:
             print(e)
-            self._exit(1)
-            return False
+            return self._exit(2)
         parser = TestParser()
         if 'cases' in data.keys():
             for c in data['cases']:
                 filename, cases = next(iter(c.items()))
                 c = self.addFile(filename)  # TODO addCase
+                if c is None:
+                    return False
                 for values in cases:
                     key, values = next(iter(values.items()))
                     c.addCase(key, parser.parse(values))
@@ -65,7 +66,9 @@ class TestMacro:
                 case = cls(self._check_lock, filename)
                 self._cases.append(case)
                 return case
-        raise NotImplementedError(f'Unsupported format: {filetype}')
+        print(f'Unsupported format: {filetype}')
+        self._exit(3)
+        return None
 
     def addFor(self, function, args):
         self._for.append((function, args))
@@ -98,11 +101,17 @@ class TestMacro:
         self._init()
 
         row = self.__row__()
+        if len(self._cases) == 0:
+            self._lock = False
+            return
+        
         # TODO simplification
         if len(self._cases) == 1:
             row = [r.split('.')[-1] for r in row]
         row = [r[-10:] for r in row]
-        print(('{:>12s}' * len(row)).format(*row))
+
+        if len(row) > 0:
+            print(('{:>12s}' * len(row)).format(*row))
 
         # TODO more pretty
         with tqdm(total=len(self)) as pbar:
@@ -119,7 +128,7 @@ class TestMacro:
                     await _fun(case)(*_args)
                 # exec
                 for _cmd in self._exes:
-                    if await self._execute(_cmd):
+                    if not await self._execute(_cmd):
                         on_error = True
                         break
                 if on_error:
@@ -142,8 +151,7 @@ class TestMacro:
             )
         except FileNotFoundError as e:
             print(f'\n{e}')
-            self._exit(1)
-            return True
+            return self._exit(1)
         # await
         while True:
             retcode = process.poll()
@@ -155,13 +163,13 @@ class TestMacro:
         # (output, err) = process.communicate()
         exit_code = process.wait()
         if exit_code != 0:
-            self._exit(exit_code)
-            return True
-        return False
+            return self._exit(exit_code)
+        return True
 
     def _exit(self, exit_code: int):
         self._lock = False
         self._exit_code = int(exit_code)
+        return False
 
     def _dump(self):
         if len(self._cases) == 0:

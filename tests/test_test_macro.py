@@ -9,16 +9,14 @@ from test_macro.macro import main as _main
 async def test_not_loaded():
     macro = TestMacro()
     assert not macro.load('hello.ghost.yml')
+    assert macro.exitCode == 2
 
 
 @pytest.mark.asyncio
 async def test_unsupported_format():
     macro = TestMacro()
-    try:
-        macro.load('test_supported_format.yml')
-        assert False
-    except NotImplementedError:
-        pass
+    assert not macro.load('test_supported_format.yml')
+    assert macro.exitCode == 3
 
 
 @pytest.mark.asyncio

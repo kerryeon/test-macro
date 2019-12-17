@@ -20,7 +20,26 @@ $ pip install test-macro
 ```
 
 ## Hello world
-TODO
+1. Get your own program, setting files.
+2. Create `case.yml` in the path you want to execute.
+```yml
+%YAML:1.0
+
+exes:
+- ./program
+
+cases:
+- my-settings.yaml:
+  - my_var1: (3, 10)  # 3, 4, ..., 10
+  - my_var2: 2 ** (0, 3)  # 1, 2, 4, 8
+  - my_var3:
+    - my_string1
+    - my_string2
+
+for:
+- record: My GUI Title
+```
+3. type `macro` in the path containing `case.yml`.
 
 # List of main features
 TODO
